@@ -654,10 +654,10 @@ export default function AmbilightWebApp() {
                     </div>
 
                     {/* White Detection Threshold */}
-                    <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-amber-950/40">
+                    <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
                       <div className="flex justify-between text-xs">
                         <span className="text-slate-200 font-medium">Umbral Detección de Blanco (Δ RGB)</span>
-                        <span className="font-mono text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
+                        <span className="font-mono text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-600">
                           {selectedLight.calibration.cct_white_threshold || 25}
                         </span>
                       </div>
@@ -670,7 +670,7 @@ export default function AmbilightWebApp() {
                         onChange={(e) =>
                           updateLightCalibration(selectedLight.id, "cct_white_threshold", parseInt(e.target.value))
                         }
-                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 to-amber-200"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 via-slate-300 to-white"
                       />
                       <p className="text-[10px] text-slate-500">
                         Si max(R,G,B) - min(R,G,B) &lt; umbral, se envía CCT para evitar blanco violeta
@@ -687,11 +687,11 @@ export default function AmbilightWebApp() {
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Gamma Curve Slider with visual curve */}
+                  {/* Gamma Curve Slider with White Line */}
                   <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
                     <div className="flex justify-between text-xs">
-                      <span className="text-slate-300 font-medium">Curva Gamma</span>
-                      <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                      <span className="text-slate-200 font-medium">Curva Gamma</span>
+                      <span className="font-mono text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-600">
                         {selectedLight.calibration.gamma || 0.6}
                       </span>
                     </div>
@@ -704,18 +704,18 @@ export default function AmbilightWebApp() {
                       onChange={(e) =>
                         updateLightCalibration(selectedLight.id, "gamma", parseFloat(e.target.value))
                       }
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-800 via-cyan-900 to-cyan-400"
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 via-slate-300 to-white"
                     />
                     <p className="text-[10px] text-slate-500">
                       Menor a 1.0 realza luminosidad en escenas tenues; mayor comprime sombras
                     </p>
                   </div>
 
-                  {/* Minimum Brightness Slider */}
+                  {/* Minimum Brightness Slider with White Line */}
                   <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
                     <div className="flex justify-between text-xs">
-                      <span className="text-slate-300 font-medium">Brillo Mínimo de Encendido</span>
-                      <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                      <span className="text-slate-200 font-medium">Brillo Mínimo de Encendido</span>
+                      <span className="font-mono text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-600">
                         {selectedLight.calibration.brightness_min} / 255
                       </span>
                     </div>
@@ -728,18 +728,18 @@ export default function AmbilightWebApp() {
                       onChange={(e) =>
                         updateLightCalibration(selectedLight.id, "brightness_min", parseInt(e.target.value))
                       }
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-900 to-amber-400"
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 via-slate-300 to-white"
                     />
                     <p className="text-[10px] text-slate-500">
                       Previene parpadeo o apagado involuntario del driver del foco
                     </p>
                   </div>
 
-                  {/* Off Threshold (Black Screen) */}
+                  {/* Off Threshold (Black Screen) with White Line */}
                   <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
                     <div className="flex justify-between text-xs">
-                      <span className="text-slate-300 font-medium">Umbral Apagado (Pantalla Negra)</span>
-                      <span className="font-mono text-rose-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                      <span className="text-slate-200 font-medium">Umbral Apagado (Pantalla Negra)</span>
+                      <span className="font-mono text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-600">
                         {selectedLight.calibration.off_threshold}
                       </span>
                     </div>
@@ -752,7 +752,7 @@ export default function AmbilightWebApp() {
                       onChange={(e) =>
                         updateLightCalibration(selectedLight.id, "off_threshold", parseInt(e.target.value))
                       }
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-900 to-rose-700"
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 via-slate-300 to-white"
                     />
                     <p className="text-[10px] text-slate-500">
                       Si el brillo es menor a este valor, apaga la luz para negros reales
