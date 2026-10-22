@@ -22,6 +22,7 @@ export default function AmbilightWebApp() {
   const [lights, setLights] = useState<LightItem[]>(INITIAL_LIGHTS);
   const [selectedLightId, setSelectedLightId] = useState<string>("wiz_rgbw");
   const [activeLayout, setActiveLayout] = useState<PartitionMode>("split_2_vertical");
+  const [layoutMap, setLayoutMap] = useState<Record<PartitionMode, typeof LAYOUT_DEFINITIONS[PartitionMode]>>(LAYOUT_DEFINITIONS);
 
   const selectedLight = lights.find((l) => l.id === selectedLightId) || lights[0];
 
@@ -29,6 +30,28 @@ export default function AmbilightWebApp() {
     setLights((prev) =>
       prev.map((l) => (l.id === id ? { ...l, enabled: !l.enabled } : l))
     );
+  };
+
+  const updateZoneLightAssignment = (mode: PartitionMode, zoneId: string, lightId: string) => {
+    setLayoutMap((prev) => {
+      const currentDef = prev[mode];
+      const updatedZones = currentDef.zones.map((z) => {
+        if (z.id === zoneId) {
+          return {
+            ...z,
+            assigned_light_ids: lightId ? [lightId] : [],
+          };
+        }
+        return z;
+      });
+      return {
+        ...prev,
+        [mode]: {
+          ...currentDef,
+          zones: updatedZones,
+        },
+      };
+    });
   };
 
   const updateLightCalibration = (id: string, key: string, value: number) => {
@@ -46,7 +69,7 @@ export default function AmbilightWebApp() {
     );
   };
 
-  const currentLayoutDef = LAYOUT_DEFINITIONS[activeLayout];
+  const currentLayoutDef = layoutMap[activeLayout];
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
@@ -345,64 +368,146 @@ export default function AmbilightWebApp() {
               </div>
             </div>
 
-            {/* Visual Canvas of the Screen with assigned lights */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-              <div className="flex items-center justify-between">
+            {/* Visual Canvas of the Screen with INTERACTIVE ON-SCREEN ASSIGNMENT */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="font-semibold text-sm text-slate-200">Asignación de Zonas y Luces</h3>
-                  <p className="text-xs text-slate-400">
-                    Modo: <span className="text-cyan-400 font-medium">{currentLayoutDef.name}</span>
+                  <h3 className="font-semibold text-sm text-slate-100 flex items-center gap-2">
+                    <Monitor className="w-4 h-4 text-cyan-400" />
+                    <span>Configuración Visual sobre la Pantalla</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Modo actual: <span className="text-cyan-400 font-semibold">{currentLayoutDef.name}</span>.
+                    Podés elegir qué foco ilumina cada parte directamente adentro del monitor o en la lista inferior.
                   </p>
                 </div>
                 <button
-                  onClick={() => alert("¡Configuración de zonas guardada en config/layouts/active.yaml!")}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow"
+                  onClick={() => alert(`¡Layout "${currentLayoutDef.name}" guardado exitosamente en YAML!`)}
+                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5 self-start sm:self-auto"
                 >
-                  Guardar Layout Activo
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Guardar Layout</span>
                 </button>
               </div>
 
-              {/* Grid of zones with dropdown of lights */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+              {/* The interactive monitor canvas */}
+              <div className="relative aspect-[21/9] sm:aspect-[16/7] w-full rounded-2xl bg-slate-950 border-2 border-slate-700/80 overflow-hidden shadow-2xl">
                 {currentLayoutDef.zones.map((zone) => {
                   const [r, g, b] = zone.color;
+                  const assignedLight = lights.find((l) => zone.assigned_light_ids.includes(l.id));
+
                   return (
                     <div
                       key={zone.id}
-                      className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-3"
+                      className="absolute transition-all duration-300 p-3 flex flex-col justify-between border-2 border-slate-700/60 hover:border-cyan-400/80 group"
+                      style={{
+                        left: `${zone.rect.x * 100}%`,
+                        top: `${zone.rect.y * 100}%`,
+                        width: `${zone.rect.width * 100}%`,
+                        height: `${zone.rect.height * 100}%`,
+                        backgroundColor: `rgba(${r}, ${g}, ${b}, 0.25)`,
+                        boxShadow: `inset 0 0 45px rgba(${r}, ${g}, ${b}, 0.45)`,
+                      }}
                     >
+                      {/* Zone Header */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-semibold text-slate-100 bg-slate-900/90 px-2 py-0.5 rounded-md border border-slate-700 shadow-sm flex items-center gap-1.5">
                           <span
-                            className="w-3.5 h-3.5 rounded-full border border-white/20"
+                            className="w-2.5 h-2.5 rounded-full border border-white/30"
                             style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
                           />
-                          <span className="font-semibold text-sm text-slate-200">{zone.name}</span>
-                        </div>
-                        <span className="text-[10px] font-mono text-slate-500">ID: {zone.id}</span>
+                          {zone.name}
+                        </span>
+
+                        <span className="text-[10px] font-mono text-slate-400 bg-slate-950/80 px-1.5 py-0.5 rounded border border-slate-800">
+                          {Math.round(zone.rect.width * 100)}% x {Math.round(zone.rect.height * 100)}%
+                        </span>
                       </div>
 
-                      <div className="space-y-1.5">
-                        <label className="text-xs text-slate-400 font-medium">Foco Asociado:</label>
+                      {/* Direct on-screen light selector */}
+                      <div className="bg-slate-950/95 backdrop-blur-md rounded-xl p-2.5 border border-slate-700/80 shadow-2xl max-w-xs space-y-1.5">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-slate-300 font-medium flex items-center gap-1">
+                            <Lightbulb className="w-3.5 h-3.5 text-cyan-400" />
+                            <span>Foco en esta zona:</span>
+                          </span>
+                          {assignedLight && (
+                            <span className="text-[10px] text-cyan-300 font-mono">
+                              ({assignedLight.brand})
+                            </span>
+                          )}
+                        </div>
+
                         <select
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
-                          defaultValue={zone.assigned_light_ids[0] || ""}
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 font-medium focus:outline-none focus:border-cyan-400 cursor-pointer"
+                          value={zone.assigned_light_ids[0] || ""}
+                          onChange={(e) =>
+                            updateZoneLightAssignment(activeLayout, zone.id, e.target.value)
+                          }
                         >
-                          <option value="">(Sin foco asignado)</option>
+                          <option value="">— Ninguno (Zona sin foco) —</option>
                           {lights.map((l) => (
                             <option key={l.id} value={l.id}>
-                              {l.name} ({l.entity_id})
+                              {l.name}
                             </option>
                           ))}
                         </select>
                       </div>
-
-                      <div className="text-[11px] text-slate-400 bg-slate-900/60 p-2 rounded-lg border border-slate-800/60">
-                        Coordenadas relativas: ({zone.rect.x}, {zone.rect.y}) a ({zone.rect.width}x{zone.rect.height})
-                      </div>
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Bottom Cards for detailed zone breakdown */}
+              <div className="pt-2">
+                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                  Resumen de Asignaciones por Zona
+                </h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {currentLayoutDef.zones.map((zone) => {
+                    const assignedLight = lights.find((l) => zone.assigned_light_ids.includes(l.id));
+                    const [r, g, b] = zone.color;
+                    return (
+                      <div
+                        key={zone.id}
+                        className="rounded-xl border border-slate-800 bg-slate-950/70 p-3.5 flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span
+                            className="w-4 h-4 rounded-full border border-white/30 shrink-0"
+                            style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
+                          />
+                          <div>
+                            <div className="text-xs font-semibold text-slate-200">{zone.name}</div>
+                            <div className="text-[11px] text-slate-400">
+                              {assignedLight ? (
+                                <span className="text-cyan-400 font-medium">{assignedLight.name}</span>
+                              ) : (
+                                <span className="text-slate-500 italic">Sin foco asignado</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <select
+                          className="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                          value={zone.assigned_light_ids[0] || ""}
+                          onChange={(e) =>
+                            updateZoneLightAssignment(activeLayout, zone.id, e.target.value)
+                          }
+                        >
+                          <option value="">(Ninguno)</option>
+                          {lights.map((l) => (
+                            <option key={l.id} value={l.id}>
+                              {l.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
