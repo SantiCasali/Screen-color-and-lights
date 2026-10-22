@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Monitor,
   Lightbulb,
@@ -15,6 +15,13 @@ import {
 } from "lucide-react";
 import { INITIAL_LIGHTS, LAYOUT_DEFINITIONS } from "@/lib/mockData";
 import { LightItem, PartitionMode } from "@/types/ambilight";
+import {
+  getEngineStatus,
+  toggleEngine,
+  toggleLightPowerApi,
+  saveLightCalibrationApi,
+  updateLayoutApi,
+} from "@/lib/api";
 
 export default function AmbilightWebApp() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "distribution" | "calibration" | "settings">("dashboard");
@@ -26,10 +33,54 @@ export default function AmbilightWebApp() {
 
   const selectedLight = lights.find((l) => l.id === selectedLightId) || lights[0];
 
-  const toggleLightPower = (id: string) => {
+  // Poll status from API or connect WebSocket if available
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+    try {
+      const wsUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000")
+        .replace("http://", "ws://")
+        .replace("https://", "wss://");
+
+      ws = new WebSocket(`${wsUrl}/ws/telemetry`);
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          setEngineRunning(data.running);
+          if (data.zone_colors) {
+            setLayoutMap((prev) => {
+              const current = prev[activeLayout];
+              const updated = current.zones.map((z) => {
+                if (data.zone_colors[z.id]) {
+                  return { ...z, color: data.zone_colors[z.id] };
+                }
+                return z;
+              });
+              return { ...prev, [activeLayout]: { ...current, zones: updated } };
+            });
+          }
+        } catch {}
+      };
+    } catch {}
+
+    return () => {
+      if (ws) ws.close();
+    };
+  }, [activeLayout]);
+
+  const toggleEnginePower = async () => {
+    const nextState = !engineRunning;
+    setEngineRunning(nextState);
+    await toggleEngine(nextState ? "start" : "stop");
+  };
+
+  const toggleLightPower = async (id: string) => {
+    const target = lights.find((l) => l.id === id);
+    const nextState = target ? !target.enabled : true;
+
     setLights((prev) =>
-      prev.map((l) => (l.id === id ? { ...l, enabled: !l.enabled } : l))
+      prev.map((l) => (l.id === id ? { ...l, enabled: nextState } : l))
     );
+    await toggleLightPowerApi(id, nextState);
   };
 
   const updateZoneLightAssignment = (mode: PartitionMode, zoneId: string, lightId: string) => {
@@ -99,7 +150,7 @@ export default function AmbilightWebApp() {
           </div>
 
           <button
-            onClick={() => setEngineRunning(!engineRunning)}
+            onClick={toggleEnginePower}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm transition shadow-lg ${
               engineRunning
                 ? "bg-rose-600/90 hover:bg-rose-500 text-white shadow-rose-900/30"
