@@ -160,30 +160,36 @@ export default function AmbilightWebApp() {
                 </div>
               </div>
 
-              {/* Dynamic simulated monitor screen */}
-              <div className="relative aspect-[21/9] sm:aspect-[16/7] w-full rounded-xl bg-slate-950 border border-slate-700/60 overflow-hidden shadow-2xl flex">
+              {/* Dynamic simulated monitor screen with spatial positioning */}
+              <div className="relative aspect-[21/9] sm:aspect-[16/7] w-full rounded-xl bg-slate-950 border border-slate-700/60 overflow-hidden shadow-2xl">
                 {currentLayoutDef.zones.map((zone) => {
                   const [r, g, b] = zone.color;
+                  const isCornerGrid = activeLayout === "quadrants_4";
                   return (
                     <div
                       key={zone.id}
-                      className="relative flex-1 h-full transition-colors duration-200 flex flex-col justify-end p-4 border-r border-slate-800/50 last:border-r-0"
+                      className="absolute transition-all duration-300 flex flex-col justify-between p-3 border border-slate-800/40"
                       style={{
-                        backgroundColor: `rgba(${r}, ${g}, ${b}, 0.28)`,
-                        boxShadow: `inset 0 0 40px rgba(${r}, ${g}, ${b}, 0.4)`,
+                        left: `${zone.rect.x * 100}%`,
+                        top: `${zone.rect.y * 100}%`,
+                        width: `${zone.rect.width * 100}%`,
+                        height: `${zone.rect.height * 100}%`,
+                        backgroundColor: `rgba(${r}, ${g}, ${b}, 0.22)`,
+                        boxShadow: `inset 0 0 35px rgba(${r}, ${g}, ${b}, 0.35)`,
                       }}
                     >
-                      <div className="bg-slate-900/80 backdrop-blur rounded-lg p-2.5 border border-slate-700/60 text-xs inline-block max-w-max">
-                        <div className="font-semibold text-slate-200">{zone.name}</div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span
-                            className="w-3 h-3 rounded-full border border-white/20 shadow"
-                            style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
-                          />
-                          <span className="font-mono text-[10px] text-slate-400">
-                            rgb({r}, {g}, {b})
-                          </span>
-                        </div>
+                      <div className="flex items-start justify-between">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900/90 text-slate-300 border border-slate-700/70">
+                          {zone.name}
+                        </span>
+                        <span
+                          className="w-3.5 h-3.5 rounded-full border border-white/30 shadow-sm"
+                          style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
+                        />
+                      </div>
+
+                      <div className="bg-slate-900/80 backdrop-blur rounded px-2 py-1 text-[11px] text-slate-300 font-mono inline-block max-w-max border border-slate-800">
+                        rgb({r}, {g}, {b})
                       </div>
                     </div>
                   );
