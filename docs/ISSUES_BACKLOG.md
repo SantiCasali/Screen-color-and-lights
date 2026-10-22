@@ -168,3 +168,30 @@ Este documento simula los issues de GitHub organizados por hitos (Milestones) y 
   - [ ] Archivo `docker-compose.yml` con configuración de red `host` (esencial para auto-discovery de dispositivos WiZ / mDNS en LAN).
   - [ ] Mapeo de volumen local persistente para `/config`.
   - [ ] Guía paso a paso de migración de integraciones, entidades y tokens.
+
+---
+
+## 🎯 Milestone 8: Ideas Futuras y Expansión (Backlog Exploratorio)
+
+### Issue #12: Control directo de focos por IP / MAC (Protocolo UDP local sin Home Assistant)
+- **Labels**: `enhancement`, `hardware-adapter`, `low-latency`
+- **Estado**: Futura Idea
+- **Descripción**:
+  Investigar e implementar comunicación directa desde el motor de Python hacia los focos en la red local vía UDP/Broadcast (ej. protocolo local WiZ en puerto 38899).
+- **Criterios de Aceptación**:
+  - [ ] Descubrimiento de focos en la red por dirección MAC / IP local.
+  - [ ] Driver de envío de paquetes directos UDP con latencia < 5ms.
+  - [ ] Modo fallback: si el foco directo no responde, enviar por Home Assistant.
+
+---
+
+### Issue #13: Hub domótico rápido para el hogar y preparación para proyecto Open Source público
+- **Labels**: `enhancement`, `webapp`, `open-source`
+- **Estado**: Futura Idea
+- **Descripción**:
+  Extender la WebApp para que funcione como centro de control de iluminación de toda la casa (escenas rápidas, habitaciones) y desacoplar cualquier dato privado para permitir que el repositorio se publique como proyecto de código abierto para la comunidad.
+- **Criterios de Aceptación**:
+  - [ ] Secciones por habitación y escenas de iluminación (Cine, Lectura, Noche).
+  - [ ] Arquitectura 100% agnóstica sin datos de red o IPs particulares en el código base.
+  - [ ] Plantillas de despliegue rápido y documentación de contribución comunitaria.
+

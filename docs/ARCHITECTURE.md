@@ -109,9 +109,37 @@ Para lograr una WebApp moderna a largo plazo sin quebrar el rendimiento de captu
 
 ## 5. Roadmap por Fases
 - **Fase 1: Estabilización, Seguridad y Verificación** (probar base actual, aislar secretos, validar conectividad).
-- **Fase 2: Motor de Zonas y Captura Particionada** (Full, 2 verticales, 3, 4 cuadrantes, asignación zona-foco).
+- **Fase 2: Motor de Zonas y Captura Particionada** (Full, 2 verticales, 3, 4 cuadrantes/esquinas, asignación zona-foco).
 - **Fase 3: Algoritmo Robusto de Color Predominante** (reemplazo de promedio RGB, descarte de bandas negras).
 - **Fase 4: Adaptadores Modulares de Nuevas Marcas y Calibración** (archivos YAML por foco, soporte n focos).
 - **Fase 5: Backend API con FastAPI y WebSockets** (control del motor, CRUD de configuraciones y streaming de estado).
 - **Fase 6: Frontend WebApp con Next.js + Tailwind** (UI interactiva, visualizador de zonas y control remoto).
 - **Fase 7: Infraestructura Docker** (reemplazo de Home Assistant VM por contenedor persistente).
+
+---
+
+## 6. Ideas Futuras y Expansión del Proyecto (Backlog Exploratorio)
+
+### A. Conexión Directa a Focos por Dirección MAC / UDP Local (Bypass de Home Assistant)
+- **Concepto**: Permitir que el motor de Ambilight envíe paquetes directamente a la IP/MAC del foco en la red local (por ejemplo mediante el protocolo local UDP que utilizan los focos WiZ en el puerto `38899`, o protocolos BLE/Matter locales).
+- **Ventajas**:
+  - **Latencia ultra-baja**: Elimina el intermediario HTTP de Home Assistant, reduciendo la latencia de ~30-50ms a <5ms.
+  - **Independencia**: El Ambilight puede funcionar incluso si Home Assistant está apagado o en mantenimiento.
+  - **Modo Híbrido**: Control rápido directo para Ambilight en tiempo real, manteniendo Home Assistant para automatizaciones del hogar.
+
+### B. Sistema Simplificado y Rápido de Gestión del Hogar (Custom Home Dashboard)
+- **Concepto**: Extender la WebApp no solo como Ambilight de pantalla, sino como un **centro de control lumínico para toda la casa**:
+  - Encendido/apagado rápido por habitaciones (Living, Pieza, Escritorio).
+  - Escenas predefinidas con un click (Modo Película, Modo Lectura, Modo Noche, Luz de Trabajo).
+  - Interfaz ultraliviana pensada para celulares y tablets montadas en pared.
+
+### C. Publicación como Proyecto Open Source en GitHub
+- **Concepto**: Diseñar el código con estándares de proyecto público y reutilizable por la comunidad:
+  - Cero datos 'hardcodeados' de la casa particular (todo parametrizado por YAML / variables de entorno).
+  - Documentación de instalación en 1 comando (`docker compose up` + `npm run dev`).
+  - Guía de contribución para que otros usuarios sumen drivers de nuevas marcas (Philips Hue, Tuya/SmartLife, Yeelight, Govee).
+
+### D. Virtualización de Home Assistant en Docker / Contenedores Ligeros
+- **Concepto**: Reemplazar la máquina virtual pesada (VirtualBox / VMware) por un contenedor Docker persistente en Windows (WSL2) o en un mini-PC/servidor local.
+- **Ventajas**: Menor consumo de RAM/CPU, inicio automático con el sistema operativo y respaldos directos del volumen `/config`.
+
