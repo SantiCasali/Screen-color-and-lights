@@ -1,0 +1,17 @@
+# Local Pi runtime state
+.atl/
+
+# Environment and sensitive configurations
+.env
+config/global.yaml
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/

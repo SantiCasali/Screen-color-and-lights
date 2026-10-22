@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AmbilightFoco - Distribution</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-primary-fixed-variant": "#0035be",
+                            "on-primary-fixed": "#001356",
+                            "tertiary": "#00dce5",
+                            "surface-dim": "#111317",
+                            "inverse-surface": "#e2e2e8",
+                            "on-tertiary-fixed-variant": "#004f53",
+                            "on-secondary-container": "#d4baff",
+                            "tertiary-fixed-dim": "#00dce5",
+                            "secondary-container": "#6c04de",
+                            "primary-fixed-dim": "#b8c3ff",
+                            "on-error": "#690005",
+                            "secondary-fixed-dim": "#d4bbff",
+                            "surface-variant": "#333539",
+                            "secondary-fixed": "#ebdcff",
+                            "error": "#ffb4ab",
+                            "secondary": "#d4bbff",
+                            "surface-tint": "#b8c3ff",
+                            "outline": "#8e90a2",
+                            "surface-container": "#1e2024",
+                            "surface-container-low": "#1a1c20",
+                            "on-background": "#e2e2e8",
+                            "primary-fixed": "#dde1ff",
+                            "inverse-on-surface": "#2f3035",
+                            "on-secondary-fixed": "#270058",
+                            "on-primary": "#002388",
+                            "on-tertiary": "#003739",
+                            "on-secondary-fixed-variant": "#5d00c2",
+                            "on-surface-variant": "#c4c5d9",
+                            "surface-container-high": "#282a2e",
+                            "on-secondary": "#41008b",
+                            "on-surface": "#e2e2e8",
+                            "surface-bright": "#37393e",
+                            "primary-container": "#2e5bff",
+                            "tertiary-container": "#00797e",
+                            "on-tertiary-fixed": "#002021",
+                            "primary": "#b8c3ff",
+                            "surface": "#111317",
+                            "inverse-primary": "#124af0",
+                            "error-container": "#93000a",
+                            "surface-container-highest": "#333539",
+                            "on-primary-container": "#efefff",
+                            "background": "#111317",
+                            "on-error-container": "#ffdad6",
+                            "surface-container-lowest": "#0c0e12",
+                            "outline-variant": "#434656",
+                            "tertiary-fixed": "#63f7ff",
+                            "on-tertiary-container": "#bbfbff"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "xs": "8px",
+                            "base": "4px",
+                            "margin-desktop": "40px",
+                            "gutter": "20px",
+                            "xl": "48px",
+                            "margin-mobile": "16px",
+                            "lg": "32px",
+                            "sm": "16px",
+                            "md": "24px"
+                    },
+                    "fontFamily": {
+                            "headline-lg": [
+                                    "Inter"
+                            ],
+                            "headline-lg-mobile": [
+                                    "Inter"
+                            ],
+                            "title-md": [
+                                    "Inter"
+                            ],
+                            "display-lg": [
+                                    "Inter"
+                            ],
+                            "label-caps": [
+                                    "Inter"
+                            ],
+                            "body-md": [
+                                    "Inter"
+                            ],
+                            "data-mono": [
+                                    "JetBrains Mono"
+                            ]
+                    },
+                    "fontSize": {
+                            "headline-lg": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "40px",
+                                            "letterSpacing": "-0.01em",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "headline-lg-mobile": [
+                                    "24px",
+                                    {
+                                            "lineHeight": "32px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "title-md": [
+                                    "20px",
+                                    {
+                                            "lineHeight": "28px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "display-lg": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "56px",
+                                            "letterSpacing": "-0.02em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "label-caps": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "16px",
+                                            "letterSpacing": "0.05em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "body-md": [
+                                    "16px",
+                                    {
+                                            "lineHeight": "24px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "data-mono": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "20px",
+                                            "fontWeight": "500"
+                                    }
+                            ]
+                    }
+            },
+                },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111317;
+            color: #e2e2e8;
+        }
+        /* Custom scrollbar for control panels */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111317; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333539; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #434656; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- TopNavBar (Mobile) -->
+<header class="md:hidden fixed top-0 left-0 w-full h-16 flex justify-between items-center px-margin-mobile bg-surface border-b border-outline-variant z-50">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">AmbilightFoco</h1>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings_system_daydream">settings_system_daydream</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-64 bg-surface-container border-r border-outline-variant z-40 py-lg">
+<div class="px-md mb-xl flex flex-col gap-base">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">AmbilightFoco</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">Precision Control</p>
+</div>
+<div class="flex-1 flex flex-col gap-sm px-sm">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="dashboard_multi_foco.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">dashboard</span>
+<span class="font-title-md text-title-md">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="gestion_de_focos.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">lightbulb</span>
+<span class="font-title-md text-title-md">Focos</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-md px-md py-sm rounded text-primary font-bold bg-surface-variant border-r-2 border-primary transition-colors group" href="distribucion_y_grupos.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform" style="font-variation-settings: 'FILL' 1;">layers</span>
+<span class="font-title-md text-title-md">Distribution</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">settings_suggest</span>
+<span class="font-title-md text-title-md">Settings</span>
+</a>
+</div>
+<!-- Global Controls in Sidebar -->
+<div class="px-md mt-auto pt-xl border-t border-outline-variant">
+<div class="bg-surface-container-highest p-md rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-md">
+<span class="font-title-md text-title-md">Master Power</span>
+<!-- Tactile Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Sync to Screen</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container peer-checked:after:bg-on-secondary-container"></div>
+</label>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto pt-md md:pt-margin-desktop px-margin-mobile md:px-margin-desktop pb-xl md:ml-64 w-full mt-16 md:mt-0">
+<div class="max-w-6xl mx-auto space-y-xl">
+<!-- Header -->
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Distribution &amp; Groups</h2>
+<p class="text-on-surface-variant mt-base">Configure global analysis parameters and manage dynamic device groups.</p>
+</div>
+<!-- Section 1: Configuración Global -->
+<section class="bg-surface-container-low border border-outline-variant rounded-xl p-md md:p-lg relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(circle at top right, var(--primary), transparent 40%);"></div>
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
+<h3 class="font-title-md text-title-md text-on-surface">Configuración Global</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Monitor -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Monitor</label>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-body-md rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none">
+<option>Display 1 (Primary)</option>
+<option>Display 2 (Generic PnP)</option>
+</select>
+</div>
+<!-- Detection Method -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Detection Method</label>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-body-md rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none">
+<option>DirectX Hook (Fast)</option>
+<option>Desktop Duplication</option>
+<option>BitBlt (Legacy)</option>
+</select>
+</div>
+<!-- Resolution -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Analysis Resolution</label>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-body-md rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none">
+<option>1920x1080 (Recommended)</option>
+<option>1280x720 (Performance)</option>
+<option>2560x1440 (High Fidelity)</option>
+</select>
+</div>
+<!-- Frequency -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Update Frequency</label>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-body-md rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none">
+<option>60 FPS</option>
+<option>30 FPS</option>
+<option>120 FPS</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section 2: Distribución de Color -->
+<section class="bg-surface-container-low border border-outline-variant rounded-xl p-md md:p-lg">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary" data-icon="palette">palette</span>
+<h3 class="font-title-md text-title-md text-on-surface">Distribución de Color</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Option 1 -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-surface p-md hover:bg-surface-variant/50 transition-colors group">
+<input checked="" class="peer sr-only" name="color_dist" type="radio"/>
+<div class="absolute inset-0 rounded-lg border-2 border-transparent peer-checked:border-primary transition-colors pointer-events-none"></div>
+<div class="flex flex-col gap-sm w-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary peer-checked:text-primary transition-colors" data-icon="all_inclusive">all_inclusive</span>
+<div class="w-4 h-4 rounded-full border border-outline-variant peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-on-primary scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Todos igual</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">Todos los focos muestran el color promedio de la pantalla.</span>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-surface p-md hover:bg-surface-variant/50 transition-colors group">
+<input class="peer sr-only" name="color_dist" type="radio"/>
+<div class="absolute inset-0 rounded-lg border-2 border-transparent peer-checked:border-primary transition-colors pointer-events-none"></div>
+<div class="flex flex-col gap-sm w-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary peer-checked:text-primary transition-colors" data-icon="grid_on">grid_on</span>
+<div class="w-4 h-4 rounded-full border border-outline-variant peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-on-primary scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Independiente</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">Cada foco analiza un sector específico de la pantalla.</span>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-surface p-md hover:bg-surface-variant/50 transition-colors group">
+<input class="peer sr-only" name="color_dist" type="radio"/>
+<div class="absolute inset-0 rounded-lg border-2 border-transparent peer-checked:border-primary transition-colors pointer-events-none"></div>
+<div class="flex flex-col gap-sm w-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary peer-checked:text-primary transition-colors" data-icon="group_work">group_work</span>
+<div class="w-4 h-4 rounded-full border border-outline-variant peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-on-primary scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Por Grupos</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">Los focos en un grupo comparten el mismo color regional.</span>
+</div>
+</label>
+</div>
+</section>
+<!-- Section 3: Grupos Dinámicos -->
+<section class="bg-surface-container-low border border-outline-variant rounded-xl p-md md:p-lg">
+<div class="flex justify-between items-center mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="device_hub">device_hub</span>
+<h3 class="font-title-md text-title-md text-on-surface">Grupos Dinámicos</h3>
+</div>
+<button class="bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-label-caps text-label-caps py-sm px-md rounded-lg transition-colors flex items-center gap-xs uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        Crear grupo
+                    </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Group Card 1 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-md">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary" data-icon="bedroom_parent">bedroom_parent</span>
+<span class="font-title-md text-title-md text-on-surface">Habitación</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-xs mt-sm">
+<span class="bg-surface-variant text-on-surface font-data-mono text-data-mono px-xs py-1 rounded-full text-xs flex items-center gap-1 border border-outline-variant/50">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Foco Pieza
+                            </span>
+<span class="bg-surface-variant text-on-surface font-data-mono text-data-mono px-xs py-1 rounded-full text-xs flex items-center gap-1 border border-outline-variant/50">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                WiZ RGBW
+                            </span>
+</div>
+</div>
+<!-- Group Card 2 -->
+<div class="bg-surface border border-outline-variant rounded-lg p-md">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="desktop_windows">desktop_windows</span>
+<span class="font-title-md text-title-md text-on-surface">Escritorio</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-xs mt-sm">
+<span class="bg-surface-variant text-on-surface font-data-mono text-data-mono px-xs py-1 rounded-full text-xs flex items-center gap-1 border border-outline-variant/50">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Tira LED Monitor
+                            </span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 w-full h-16 bg-surface border-t border-outline-variant flex justify-around items-center z-50">
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="dashboard_multi_foco.html">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-caps text-[10px]">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="gestion_de_focos.html">
+<span class="material-symbols-outlined mb-1">lightbulb</span>
+<span class="font-label-caps text-[10px]">Focos</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-primary font-bold transition-colors" href="distribucion_y_grupos.html">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">layers</span>
+<span class="font-label-caps text-[10px]">Distribution</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">settings_suggest</span>
+<span class="font-label-caps text-[10px]">Settings</span>
+</a>
+</nav>
+</body></html>

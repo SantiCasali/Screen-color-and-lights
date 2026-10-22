@@ -1,0 +1,19 @@
+light:
+  entity_id: "light.foco_pieza"
+  name: "Foco Pieza"
+  type: "foco_pieza"
+
+capabilities:
+  rgb: true
+  rgbw: false
+  cct: false
+
+calibration:
+  brightness_min: 50
+  brightness_max: 255
+  gamma: 0.6
+  off_threshold: 25
+  red_correction: 1.1
+  green_correction: 0.9
+  blue_correction: 1.0
+  color_change_threshold: 5

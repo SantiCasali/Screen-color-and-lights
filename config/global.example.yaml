@@ -1,0 +1,13 @@
+ha:
+  # Dirección IP y puerto de Home Assistant (ej. VM o Docker)
+  url: "http://192.168.0.XXX:8123"
+  # Long-Lived Access Token generado en el perfil de Home Assistant
+  token: "TU_LONG_LIVED_ACCESS_TOKEN_AQUI"
+
+system:
+  # Intervalo entre capturas/actualizaciones en segundos
+  update_interval: 0.1
+  # Resolución de reducción previa al muestreo de color
+  resize_to: [100, 100]
+  # Nivel de logging
+  log_level: "INFO"

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestión de Focos - AmbilightFoco</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#0035be",
+                    "on-primary-fixed": "#001356",
+                    "tertiary": "#00dce5",
+                    "surface-dim": "#111317",
+                    "inverse-surface": "#e2e2e8",
+                    "on-tertiary-fixed-variant": "#004f53",
+                    "on-secondary-container": "#d4baff",
+                    "tertiary-fixed-dim": "#00dce5",
+                    "secondary-container": "#6c04de",
+                    "primary-fixed-dim": "#b8c3ff",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#d4bbff",
+                    "surface-variant": "#333539",
+                    "secondary-fixed": "#ebdcff",
+                    "error": "#ffb4ab",
+                    "secondary": "#d4bbff",
+                    "surface-tint": "#b8c3ff",
+                    "outline": "#8e90a2",
+                    "surface-container": "#1e2024",
+                    "surface-container-low": "#1a1c20",
+                    "on-background": "#e2e2e8",
+                    "primary-fixed": "#dde1ff",
+                    "inverse-on-surface": "#2f3035",
+                    "on-secondary-fixed": "#270058",
+                    "on-primary": "#002388",
+                    "on-tertiary": "#003739",
+                    "on-secondary-fixed-variant": "#5d00c2",
+                    "on-surface-variant": "#c4c5d9",
+                    "surface-container-high": "#282a2e",
+                    "on-secondary": "#41008b",
+                    "on-surface": "#e2e2e8",
+                    "surface-bright": "#37393e",
+                    "primary-container": "#2e5bff",
+                    "tertiary-container": "#00797e",
+                    "on-tertiary-fixed": "#002021",
+                    "primary": "#b8c3ff",
+                    "surface": "#111317",
+                    "inverse-primary": "#124af0",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#333539",
+                    "on-primary-container": "#efefff",
+                    "background": "#111317",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0c0e12",
+                    "outline-variant": "#434656",
+                    "tertiary-fixed": "#63f7ff",
+                    "on-tertiary-container": "#bbfbff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "8px",
+                    "base": "4px",
+                    "margin-desktop": "40px",
+                    "gutter": "20px",
+                    "xl": "48px",
+                    "margin-mobile": "16px",
+                    "lg": "32px",
+                    "sm": "16px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "title-md": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "title-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111317; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333539; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #434656; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<div class="flex h-screen w-full relative">
+<!-- SideNavBar -->
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-64 bg-surface-container border-r border-outline-variant z-40 py-lg">
+<div class="px-md mb-xl flex flex-col gap-base">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">AmbilightFoco</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">Precision Control</p>
+</div>
+<div class="flex-1 flex flex-col gap-sm px-sm">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="dashboard_multi_foco.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">dashboard</span>
+<span class="font-title-md text-title-md">Dashboard</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-md px-md py-sm rounded text-primary font-bold bg-surface-variant border-r-2 border-primary transition-colors group" href="gestion_de_focos.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<span class="font-title-md text-title-md">Focos</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="distribucion_y_grupos.html">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">layers</span>
+<span class="font-title-md text-title-md">Distribution</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform">settings_suggest</span>
+<span class="font-title-md text-title-md">Settings</span>
+</a>
+</div>
+<!-- Global Controls in Sidebar -->
+<div class="px-md mt-auto pt-xl border-t border-outline-variant">
+<div class="bg-surface-container-highest p-md rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-md">
+<span class="font-title-md text-title-md">Master Power</span>
+<!-- Tactile Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Sync to Screen</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container peer-checked:after:bg-on-secondary-container"></div>
+</label>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden mt-16 md:mt-0">
+<!-- TopNavBar (Mobile) -->
+<header class="md:hidden fixed top-0 left-0 w-full h-16 flex justify-between items-center px-margin-mobile bg-surface border-b border-outline-variant z-50">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">AmbilightFoco</h1>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings_system_daydream">settings_system_daydream</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-sm rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span>
+</button>
+</div>
+</header>
+<!-- Page Header & Actions -->
+<div class="px-margin-mobile md:px-margin-desktop pt-lg pb-md flex flex-col sm:flex-row sm:items-end justify-between gap-md shrink-0">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight mb-xs">Gestión de Focos</h1>
+<p class="text-on-surface-variant">Manage and configure all connected lighting entities.</p>
+</div>
+<button class="flex items-center gap-xs px-md py-sm bg-primary-container hover:bg-inverse-primary text-on-primary-container rounded transition-colors group self-start sm:self-auto">
+<span class="material-symbols-outlined text-on-primary-container group-hover:scale-110 transition-transform">add</span>
+<span class="font-title-md text-title-md">Agregar foco</span>
+</button>
+</div>
+<!-- Focos Grid Container -->
+<div class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop pb-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Card 1: Active Ambilight -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group">
+<!-- Active Background Tint -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-100 pointer-events-none"></div>
+<!-- Header -->
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="flex items-center gap-sm">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Foco Pieza</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-xs">light.foco_pieza</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-3xl">lightbulb</span>
+</div>
+<!-- Status & Metrics -->
+<div class="flex flex-col gap-base mb-lg relative z-10">
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Status</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase bg-tertiary/10 px-2 py-1 rounded">Online</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Mode</span>
+<span class="font-label-caps text-label-caps text-primary uppercase bg-primary/10 px-2 py-1 rounded">Ambilight Sync</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="text-on-surface-variant text-sm">Brightness</span>
+<span class="font-data-mono text-data-mono text-on-surface">85%</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="mt-auto pt-md flex items-center justify-between gap-sm border-t border-surface-variant relative z-10">
+<div class="flex gap-sm">
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-colors border border-outline-variant hover:border-primary flex items-center justify-center group/btn" title="Configurar">
+<span class="material-symbols-outlined text-[20px] group-hover/btn:rotate-90 transition-transform">settings</span>
+</button>
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-error transition-colors border border-outline-variant hover:border-error flex items-center justify-center group/btn" title="Eliminar">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<!-- Toggle Switch -->
+<label class="flex items-center cursor-pointer">
+<div class="relative">
+<input checked="" class="sr-only" type="checkbox"/>
+<div class="block bg-primary-container w-12 h-6 rounded-full"></div>
+<div class="dot absolute left-1 top-1 bg-on-primary-container w-4 h-4 rounded-full transition transform translate-x-6"></div>
+</div>
+<span class="ml-sm font-label-caps text-label-caps text-primary uppercase">Ambilight ON</span>
+</label>
+</div>
+</div>
+<!-- Card 2: Static Mode -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent opacity-100 pointer-events-none"></div>
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="flex items-center gap-sm">
+<span class="relative flex h-3 w-3">
+<span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Luz Escritorio</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-xs">light.desk_lamp</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface text-3xl">desk</span>
+</div>
+<div class="flex flex-col gap-base mb-lg relative z-10">
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Status</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase bg-tertiary/10 px-2 py-1 rounded">Online</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Mode</span>
+<span class="font-label-caps text-label-caps text-on-surface uppercase bg-surface-variant px-2 py-1 rounded">Static Color</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="text-on-surface-variant text-sm">Brightness</span>
+<span class="font-data-mono text-data-mono text-on-surface">40%</span>
+</div>
+</div>
+<div class="mt-auto pt-md flex items-center justify-between gap-sm border-t border-surface-variant relative z-10">
+<div class="flex gap-sm">
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-colors border border-outline-variant hover:border-primary flex items-center justify-center group/btn" title="Configurar">
+<span class="material-symbols-outlined text-[20px] group-hover/btn:rotate-90 transition-transform">settings</span>
+</button>
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-error transition-colors border border-outline-variant hover:border-error flex items-center justify-center group/btn" title="Eliminar">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<label class="flex items-center cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+<div class="relative">
+<input class="sr-only" type="checkbox"/>
+<div class="block bg-surface-variant w-12 h-6 rounded-full border border-outline-variant"></div>
+<div class="dot absolute left-1 top-1 bg-outline w-4 h-4 rounded-full transition"></div>
+</div>
+<span class="ml-sm font-label-caps text-label-caps text-on-surface-variant uppercase">Ambilight OFF</span>
+</label>
+</div>
+</div>
+<!-- Card 3: Offline -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group opacity-75 grayscale-[50%]">
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="flex items-center gap-sm">
+<span class="relative flex h-3 w-3">
+<span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Tira LED TV</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-xs">light.tv_strip_back</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">linear_scale</span>
+</div>
+<div class="flex flex-col gap-base mb-lg relative z-10">
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Status</span>
+<span class="font-label-caps text-label-caps text-error uppercase bg-error/10 px-2 py-1 rounded">Offline</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-variant">
+<span class="text-on-surface-variant text-sm">Mode</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase bg-surface-variant px-2 py-1 rounded">Unknown</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="text-on-surface-variant text-sm">Brightness</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">--</span>
+</div>
+</div>
+<div class="mt-auto pt-md flex items-center justify-between gap-sm border-t border-surface-variant relative z-10">
+<div class="flex gap-sm">
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-colors border border-outline-variant hover:border-primary flex items-center justify-center group/btn" disabled="" title="Configurar">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="p-sm rounded bg-surface hover:bg-surface-bright text-on-surface-variant hover:text-error transition-colors border border-outline-variant hover:border-error flex items-center justify-center group/btn" title="Eliminar">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<label class="flex items-center cursor-not-allowed opacity-50">
+<div class="relative">
+<input class="sr-only" disabled="" type="checkbox"/>
+<div class="block bg-surface-variant w-12 h-6 rounded-full border border-outline-variant"></div>
+<div class="dot absolute left-1 top-1 bg-outline-variant w-4 h-4 rounded-full transition"></div>
+</div>
+<span class="ml-sm font-label-caps text-label-caps text-on-surface-variant uppercase">Unavailable</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 w-full h-16 bg-surface border-t border-outline-variant flex justify-around items-center z-50">
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="dashboard_multi_foco.html">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-caps text-[10px]">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-primary font-bold transition-colors" href="gestion_de_focos.html">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<span class="font-label-caps text-[10px]">Focos</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="distribucion_y_grupos.html">
+<span class="material-symbols-outlined mb-1">layers</span>
+<span class="font-label-caps text-[10px]">Distribution</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">settings_suggest</span>
+<span class="font-label-caps text-[10px]">Settings</span>
+</a>
+</nav>
+<!-- Inline Script for simple interactions -->
+<script>
+        // Simple toggle switch logic for visual feedback (since CSS alone is tricky without structural pseudo-classes if we want complex siblings)
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const dot = this.parentElement.querySelector('.dot');
+                const label = this.closest('label').querySelector('span.uppercase');
+                const track = this.nextElementSibling;
+                
+                if(this.checked) {
+                    dot.classList.add('translate-x-6');
+                    dot.classList.replace('bg-outline', 'bg-on-primary-container');
+                    track.classList.replace('bg-surface-variant', 'bg-primary-container');
+                    track.classList.remove('border', 'border-outline-variant');
+                    label.textContent = 'Ambilight ON';
+                    label.classList.replace('text-on-surface-variant', 'text-primary');
+                    this.closest('.bg-surface-container').querySelector('.absolute.inset-0').className = 'absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-100 pointer-events-none';
+                } else {
+                    dot.classList.remove('translate-x-6');
+                    dot.classList.replace('bg-on-primary-container', 'bg-outline');
+                    track.classList.replace('bg-primary-container', 'bg-surface-variant');
+                    track.classList.add('border', 'border-outline-variant');
+                    label.textContent = 'Ambilight OFF';
+                    label.classList.replace('text-primary', 'text-on-surface-variant');
+                    this.closest('.bg-surface-container').querySelector('.absolute.inset-0').className = 'absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent opacity-100 pointer-events-none';
+                }
+            });
+        });
+
+        // Simulate Delete Confirmation
+        document.querySelectorAll('button[title="Eliminar"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const icon = this.querySelector('.material-symbols-outlined');
+                if(icon.textContent === 'delete') {
+                    icon.textContent = 'warning';
+                    this.classList.replace('text-on-surface-variant', 'text-error');
+                    this.classList.replace('hover:text-error', 'text-error');
+                    this.classList.add('bg-error/10');
+                    setTimeout(() => {
+                        icon.textContent = 'delete';
+                        this.classList.replace('text-error', 'text-on-surface-variant');
+                        this.classList.replace('text-error', 'hover:text-error');
+                        this.classList.remove('bg-error/10');
+                    }, 3000);
+                } else {
+                    // Actual delete logic would go here
+                    const card = this.closest('.bg-surface-container');
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => card.remove(), 300);
+                }
+            });
+        });
+    </script>
+</body></html>
