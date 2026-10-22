@@ -431,143 +431,333 @@ export default function AmbilightWebApp() {
 
             {/* Calibration Form Card */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-3">
                 <div>
-                  <h2 className="text-base font-semibold text-slate-100">
-                    Calibración: {selectedLight.name}
-                  </h2>
-                  <p className="text-xs text-slate-400">
-                    Marca: {selectedLight.brand} · Entidad: {selectedLight.entity_id}
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-semibold text-slate-100">
+                      Calibración: {selectedLight.name}
+                    </h2>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-mono bg-cyan-950 text-cyan-400 border border-cyan-800">
+                      {selectedLight.type.toUpperCase()}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Marca: <span className="text-slate-300">{selectedLight.brand}</span> · Entidad:{" "}
+                    <span className="font-mono text-slate-300">{selectedLight.entity_id}</span>
                   </p>
                 </div>
-                <button
-                  onClick={() => alert(`Configuración de ${selectedLight.name} guardada en YAML!`)}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow"
-                >
-                  Guardar en config/lights/{selectedLight.id}.yaml
-                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => alert(`Configuración de ${selectedLight.name} guardada en YAML!`)}
+                    className="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5"
+                  >
+                    <span>Guardar YAML</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Sliders Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Red Correction */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Corrección Rojo (Red)</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.red_correction}x</span>
+              {/* Dynamic Live Color Preview of this Light */}
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-12 h-12 rounded-xl border border-white/20 shadow-lg flex items-center justify-center transition-all duration-300"
+                    style={{
+                      backgroundColor: `rgb(${Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[0] * selectedLight.calibration.red_correction)
+                      )}, ${Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[1] * selectedLight.calibration.green_correction)
+                      )}, ${Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[2] * selectedLight.calibration.blue_correction)
+                      )})`,
+                      boxShadow: `0 0 24px rgba(${selectedLight.current_color.join(",")}, 0.35)`,
+                    }}
+                  >
+                    <Lightbulb className="w-6 h-6 text-white drop-shadow" />
                   </div>
-                  <input
-                    type="range"
-                    min="0.1"
-                    max="3.0"
-                    step="0.05"
-                    value={selectedLight.calibration.red_correction}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "red_correction", parseFloat(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Multiplicador para compensar tono cálido/frío</p>
+                  <div>
+                    <div className="text-xs font-semibold text-slate-200">Previsualización con Calibración Aplicada</div>
+                    <div className="text-[11px] text-slate-400 font-mono">
+                      RGB compensado: [
+                      {Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[0] * selectedLight.calibration.red_correction)
+                      )}
+                      ,{" "}
+                      {Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[1] * selectedLight.calibration.green_correction)
+                      )}
+                      ,{" "}
+                      {Math.min(
+                        255,
+                        Math.round(selectedLight.current_color[2] * selectedLight.calibration.blue_correction)
+                      )}
+                      ]
+                    </div>
+                  </div>
                 </div>
 
-                {/* Green Correction */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Corrección Verde (Green)</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.green_correction}x</span>
+                {/* Capability Badges with explanations */}
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <div className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-300 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span>Modo RGB Activo</span>
                   </div>
-                  <input
-                    type="range"
-                    min="0.1"
-                    max="3.0"
-                    step="0.05"
-                    value={selectedLight.calibration.green_correction}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "green_correction", parseFloat(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Compensación del canal verde</p>
+                  {selectedLight.capabilities.rgbw && (
+                    <div className="px-2.5 py-1 rounded-lg bg-indigo-950 border border-indigo-700 text-indigo-300 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-indigo-400" />
+                      <span>Canal Blanco W</span>
+                    </div>
+                  )}
+                  {selectedLight.capabilities.cct && (
+                    <div className="px-2.5 py-1 rounded-lg bg-amber-950 border border-amber-700 text-amber-300 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span>CCT Kelvin ({selectedLight.capabilities.min_kelvin}K - {selectedLight.capabilities.max_kelvin}K)</span>
+                    </div>
+                  )}
                 </div>
+              </div>
 
-                {/* Blue Correction */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Corrección Azul (Blue)</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.blue_correction}x</span>
+              {/* Dynamic Sliders Grid: Color Gains */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Canales de Color y Ganancia (RGB)
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Red Correction Slider with Dynamic Red Gradient */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-red-950/40 hover:border-red-800/40 transition">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-red-400 font-semibold flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-sm shadow-red-500" />
+                        Ganancia Canal Rojo
+                      </span>
+                      <span className="font-mono text-red-300 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/50">
+                        {selectedLight.calibration.red_correction.toFixed(2)}x
+                      </span>
+                    </div>
+                    <div className="relative pt-1">
+                      <input
+                        type="range"
+                        min="0.1"
+                        max="3.0"
+                        step="0.05"
+                        value={selectedLight.calibration.red_correction}
+                        onChange={(e) =>
+                          updateLightCalibration(selectedLight.id, "red_correction", parseFloat(e.target.value))
+                        }
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-red-950 via-red-600 to-red-400"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500">Compensa dominancia o déficit de tonos rojos</p>
                   </div>
-                  <input
-                    type="range"
-                    min="0.1"
-                    max="4.0"
-                    step="0.1"
-                    value={selectedLight.calibration.blue_correction}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "blue_correction", parseFloat(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Vital para focos WiZ (suele requerir valor 2.5 - 3.0)</p>
+
+                  {/* Green Correction Slider with Dynamic Green Gradient */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-emerald-950/40 hover:border-emerald-800/40 transition">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500" />
+                        Ganancia Canal Verde
+                      </span>
+                      <span className="font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-900/50">
+                        {selectedLight.calibration.green_correction.toFixed(2)}x
+                      </span>
+                    </div>
+                    <div className="relative pt-1">
+                      <input
+                        type="range"
+                        min="0.1"
+                        max="3.0"
+                        step="0.05"
+                        value={selectedLight.calibration.green_correction}
+                        onChange={(e) =>
+                          updateLightCalibration(selectedLight.id, "green_correction", parseFloat(e.target.value))
+                        }
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-emerald-950 via-emerald-600 to-emerald-400"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500">Ajusta el tinte verde para balance neutro</p>
+                  </div>
+
+                  {/* Blue Correction Slider with Dynamic Blue Gradient */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-blue-950/40 hover:border-blue-800/40 transition">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-blue-400 font-semibold flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500" />
+                        Ganancia Canal Azul
+                      </span>
+                      <span className="font-mono text-blue-300 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-900/50">
+                        {selectedLight.calibration.blue_correction.toFixed(2)}x
+                      </span>
+                    </div>
+                    <div className="relative pt-1">
+                      <input
+                        type="range"
+                        min="0.1"
+                        max="4.0"
+                        step="0.1"
+                        value={selectedLight.calibration.blue_correction}
+                        onChange={(e) =>
+                          updateLightCalibration(selectedLight.id, "blue_correction", parseFloat(e.target.value))
+                        }
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-blue-950 via-blue-600 to-blue-400"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500">Crucial en focos WiZ (requiere ~2.5x - 3.0x para azules vivos)</p>
+                  </div>
                 </div>
+              </div>
 
-                {/* Gamma */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Curva Gamma</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.gamma || 0.6}</span>
+              {/* Dynamic White / CCT section: Rendered only if light supports CCT or RGBW */}
+              {selectedLight.capabilities.cct && (
+                <div className="space-y-3 pt-2 border-t border-slate-800/60">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      Calibración CCT y Detección de Blanco (Exclusivo WiZ / CCT)
+                    </h3>
+                    <span className="text-[10px] text-slate-400">
+                      Convierte grises desaturados a temperatura física en Kelvin
+                    </span>
                   </div>
-                  <input
-                    type="range"
-                    min="0.1"
-                    max="1.5"
-                    step="0.05"
-                    value={selectedLight.calibration.gamma || 0.6}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "gamma", parseFloat(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Ajusta la luminosidad en tonos medios y oscuros</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* CCT Kelvin Slider with Warm to Cold Gradient */}
+                    <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-amber-950/40">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-amber-300 font-medium">Blanco Neutro/Frío (Kelvin)</span>
+                        <span className="font-mono text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
+                          {selectedLight.calibration.cct_cold_white || 6500}K
+                        </span>
+                      </div>
+                      <div className="relative pt-1">
+                        <input
+                          type="range"
+                          min={selectedLight.capabilities.min_kelvin || 2200}
+                          max={selectedLight.capabilities.max_kelvin || 6500}
+                          step="100"
+                          value={selectedLight.calibration.cct_cold_white || 6500}
+                          onChange={(e) =>
+                            updateLightCalibration(selectedLight.id, "cct_cold_white", parseInt(e.target.value))
+                          }
+                          className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-amber-500 via-orange-100 to-cyan-300"
+                        />
+                      </div>
+                      <div className="flex justify-between text-[10px] text-slate-500">
+                        <span>Cálido ({selectedLight.capabilities.min_kelvin || 2200}K)</span>
+                        <span>Frío ({selectedLight.capabilities.max_kelvin || 6500}K)</span>
+                      </div>
+                    </div>
+
+                    {/* White Detection Threshold */}
+                    <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-amber-950/40">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-200 font-medium">Umbral Detección de Blanco (Δ RGB)</span>
+                        <span className="font-mono text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
+                          {selectedLight.calibration.cct_white_threshold || 25}
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="5"
+                        max="60"
+                        step="1"
+                        value={selectedLight.calibration.cct_white_threshold || 25}
+                        onChange={(e) =>
+                          updateLightCalibration(selectedLight.id, "cct_white_threshold", parseInt(e.target.value))
+                        }
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-700 to-amber-200"
+                      />
+                      <p className="text-[10px] text-slate-500">
+                        Si max(R,G,B) - min(R,G,B) &lt; umbral, se envía CCT para evitar blanco violeta
+                      </p>
+                    </div>
+                  </div>
                 </div>
+              )}
 
-                {/* Brillo Mínimo */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Brillo Mínimo</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.brightness_min} / 255</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="200"
-                    step="1"
-                    value={selectedLight.calibration.brightness_min}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "brightness_min", parseInt(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Evita parpadeos en intensidades muy bajas</p>
-                </div>
+              {/* Intensity, Gamma & Dynamic Behavior Sliders */}
+              <div className="space-y-3 pt-2 border-t border-slate-800/60">
+                <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Intensidad Lumínica y Comportamiento Físico
+                </h3>
 
-                {/* Umbral Apagado */}
-                <div className="space-y-2 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">Umbral Apagado (Pantalla Negra)</span>
-                    <span className="font-mono text-cyan-400">{selectedLight.calibration.off_threshold}</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Gamma Curve Slider with visual curve */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-slate-300 font-medium">Curva Gamma</span>
+                      <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                        {selectedLight.calibration.gamma || 0.6}
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.1"
+                      max="1.5"
+                      step="0.05"
+                      value={selectedLight.calibration.gamma || 0.6}
+                      onChange={(e) =>
+                        updateLightCalibration(selectedLight.id, "gamma", parseFloat(e.target.value))
+                      }
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-800 via-cyan-900 to-cyan-400"
+                    />
+                    <p className="text-[10px] text-slate-500">
+                      Menor a 1.0 realza luminosidad en escenas tenues; mayor comprime sombras
+                    </p>
                   </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="60"
-                    step="1"
-                    value={selectedLight.calibration.off_threshold}
-                    onChange={(e) =>
-                      updateLightCalibration(selectedLight.id, "off_threshold", parseInt(e.target.value))
-                    }
-                    className="w-full accent-cyan-500"
-                  />
-                  <p className="text-[10px] text-slate-500">Apaga el foco automáticamente si la escena es oscura</p>
+
+                  {/* Minimum Brightness Slider */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-slate-300 font-medium">Brillo Mínimo de Encendido</span>
+                      <span className="font-mono text-cyan-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                        {selectedLight.calibration.brightness_min} / 255
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1"
+                      max="200"
+                      step="1"
+                      value={selectedLight.calibration.brightness_min}
+                      onChange={(e) =>
+                        updateLightCalibration(selectedLight.id, "brightness_min", parseInt(e.target.value))
+                      }
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-900 to-amber-400"
+                    />
+                    <p className="text-[10px] text-slate-500">
+                      Previene parpadeo o apagado involuntario del driver del foco
+                    </p>
+                  </div>
+
+                  {/* Off Threshold (Black Screen) */}
+                  <div className="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-slate-300 font-medium">Umbral Apagado (Pantalla Negra)</span>
+                      <span className="font-mono text-rose-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                        {selectedLight.calibration.off_threshold}
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="60"
+                      step="1"
+                      value={selectedLight.calibration.off_threshold}
+                      onChange={(e) =>
+                        updateLightCalibration(selectedLight.id, "off_threshold", parseInt(e.target.value))
+                      }
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-slate-900 to-rose-700"
+                    />
+                    <p className="text-[10px] text-slate-500">
+                      Si el brillo es menor a este valor, apaga la luz para negros reales
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
