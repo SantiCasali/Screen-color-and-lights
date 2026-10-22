@@ -1,17 +1,54 @@
-# Local Pi runtime state
+# ==========================================
+# Ambilight Project — Master Git Ignore
+# ==========================================
+
+# Local agent runtime state
 .atl/
 
-# Environment and sensitive configurations
+# Environment and sensitive secrets
 .env
+.env*.local
 config/global.yaml
 
-# Python caches
+# Python caches and bytecode
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 .pytest_cache/
+.coverage
+htmlcov/
 
 # Virtual environments
 venv/
 .venv/
 env/
+ENV/
+
+# Node.js & Next.js dependencies / build outputs
+node_modules/
+webapp/node_modules/
+.next/
+webapp/.next/
+out/
+webapp/out/
+build/
+webapp/build/
+
+# Next.js and TypeScript cache
+next-env.d.ts
+webapp/next-env.d.ts
+*.tsbuildinfo
+
+# Logs & debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS / Editor temporary files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
