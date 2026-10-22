@@ -8,14 +8,13 @@ Este documento simula los issues de GitHub organizados por hitos (Milestones) y 
 
 ### Issue #1: Proteger secretos y credenciales de Home Assistant en configuración
 - **Labels**: `security`, `configuration`, `priority:critical`
-- **Estado**: Por implementar
+- **Estado**: ✅ Completado (commit inicial)
 - **Descripción**:
-  Actualmente `config/global.yaml` almacena en texto plano un Long-Lived Token y la URL interna de Home Assistant. Esto es un riesgo crítico si se inicializa y sincroniza un repositorio remoto en Git.
+  `config/global.yaml` contenía un Long-Lived Token y la URL interna de Home Assistant en texto plano.
 - **Criterios de Aceptación**:
-  - [ ] Crear `config/global.example.yaml` con valores ficticios (`http://<IP_HA>:8123`, `TOKEN_AQUI`).
-  - [ ] Añadir `config/global.yaml` y `.env` a `.gitignore`.
-  - [ ] Documentar en `README.md` el proceso de copia `cp config/global.example.yaml config/global.yaml`.
-  - [ ] Confirmar que ningún token real queda registrado en el historial de Git.
+  - [x] Crear `config/global.example.yaml` con valores ficticios.
+  - [x] Añadir `config/global.yaml` y `.env` a `.gitignore`.
+  - [x] Confirmar que ningún token real queda registrado en el historial de Git.
 
 ---
 
@@ -38,7 +37,7 @@ Este documento simula los issues de GitHub organizados por hitos (Milestones) y 
 - **Labels**: `feature`, `engine`, `priority:high`
 - **Estado**: Por implementar
 - **Descripción**:
-  Actualmente `capture_screen` solo obtiene el promedio de toda la pantalla. Se requiere una abstracción matemática que permita definir zonas mediante coordenadas normalizadas (0.0 a 1.0) y extraer sub-imágenes.
+  Actualmente `capture_screen` solo obtiene el promedio de toda la pantalla. Se requiere una abstracción matemática que permita definir zonas mediante coordenadas normalizadas (0.0 a 1.0) y extraer sub-imágenes en un solo frame.
 - **Modos de zona a soportar**:
   1. `full`: Coordenadas `(0, 0, 1.0, 1.0)`.
   2. `split_2_vertical`: Izquierda `(0, 0, 0.5, 1.0)` y Derecha `(0.5, 0, 0.5, 1.0)`.
@@ -93,37 +92,74 @@ Este documento simula los issues de GitHub organizados por hitos (Milestones) y 
 
 ---
 
-## 🎯 Milestone 5: Interfaz Gráfica Local (UI de Gestión y Calibración)
+## 🎯 Milestone 5: Backend API con FastAPI y WebSockets
 
-### Issue #7: Servidor local ligero y API de configuración (FastAPI / Flask)
-- **Labels**: `ui`, `backend`, `priority:medium`
+### Issue #7: Implementar servidor API FastAPI y WebSockets para streaming de estado
+- **Labels**: `backend`, `api`, `fastapi`, `priority:high`
 - **Estado**: Por implementar
 - **Descripción**:
-  Exponer endpoints REST/WebSocket locales para:
-  1. Conmutar encendido/apagado del motor Ambilight.
-  2. Leer y escribir configuraciones de focos y zonas.
-  3. Emitir color y estado en tiempo real para visualización.
+  Crear una capa de servicio API desacoplada del motor para permitir el control de la WebApp vía REST y WebSockets.
+- **Endpoints a exponer**:
+  - `POST /api/engine/start`: Iniciar bucle Ambilight con el layout activo.
+  - `POST /api/engine/stop`: Detener bucle y apagar focos de forma segura.
+  - `GET /api/engine/status`: Estado del motor (corriendo, detenido, FPS, latencia).
+  - `GET /api/lights`: Listado de focos registrados y su estado actual en Home Assistant.
+  - `POST /api/lights`: Registrar o editar configuración de un foco individual (YAML).
+  - `GET /api/layouts`: Listado de layouts de partición de pantalla.
+  - `POST /api/layouts/active`: Cambiar el layout activo (Full, 2 zonas, 4 zonas, etc.).
+  - `WS /ws/live-stream`: Canal WebSocket para emitir a la WebApp el color detectado por zona y los valores enviados a cada foco en tiempo real.
 - **Criterios de Aceptación**:
-  - [ ] Endpoints `/api/status`, `/api/lights`, `/api/layouts`, `/api/control`.
-  - [ ] Persistencia directa a los archivos YAML de configuración.
+  - [ ] Servidor FastAPI ejecutable con Uvicorn.
+  - [ ] Documentación OpenAPI interactiva disponible en `/docs`.
+  - [ ] Control thread-safe del ciclo de vida del motor `AmbilightEngine`.
 
 ---
 
-### Issue #8: Conectar pantallas de diseño existentes a la API local
-- **Labels**: `ui`, `frontend`, `priority:medium`
+## 🎯 Milestone 6: Frontend WebApp con Next.js + React
+
+### Issue #8: Inicializar proyecto WebApp en Next.js con Tailwind CSS y componentes base
+- **Labels**: `frontend`, `nextjs`, `react`, `priority:medium`
 - **Estado**: Por implementar
 - **Descripción**:
-  Aprovechar los mockups HTML en `Diseño Pantallas/` (`dashboard_multi_foco.html`, `gestion_de_focos.html`, `distribucion_y_grupos.html`, `configuracion_individual.html`) conectándolos con el backend local sin sobrecargar con librerías pesadas.
+  Estructurar el frontend en la carpeta `webapp/` con Next.js (App Router), Tailwind CSS y biblioteca de iconos (Lucide React), integrando diseño responsivo y PWA para acceso desde teléfonos/tablets en la red local.
 - **Criterios de Aceptación**:
-  - [ ] Visualizador de pantalla con selector interactivo de zonas (Full, 2, 3, 4, etc.).
-  - [ ] Drag & drop o selector de focos asignados a cada región.
-  - [ ] Sliders de calibración en vivo para observar cambios inmediatos en las luces.
+  - [ ] Proyecto Next.js configurado con TypeScript y Tailwind.
+  - [ ] Cliente API configurado para conectarse al backend FastAPI (`NEXT_PUBLIC_API_URL`).
+  - [ ] Conexión WebSocket para consumo reactivo del stream de colores.
 
 ---
 
-## 🎯 Milestone 6: Infraestructura y Migración a Docker
+### Issue #9: Pantalla interactiva de Distribución Espacial de Pantalla y Asignación de Luces
+- **Labels**: `frontend`, `nextjs`, `ux`, `priority:high`
+- **Estado**: Por implementar
+- **Descripción**:
+  Reemplazar el prototipo estático `Diseño Pantallas/distribucion_y_grupos.html` por una pantalla interactiva en React que muestre la pantalla del monitor dividida según el modo seleccionado (Full, 2 zonas, 3 zonas, 4 cuadrantes, perímetro) y permita asociar focos a cada zona.
+- **Criterios de Aceptación**:
+  - [ ] Selector visual de modo de partición.
+  - [ ] Canvas o grid interactivo donde cada región muestra el color detectado en vivo vía WebSocket.
+  - [ ] Asignación drag-and-drop o dropdown de qué foco o grupo de focos ilumina cada zona.
+  - [ ] Botón de "Aplicar layout" que persista la configuración en el backend.
 
-### Issue #9: Despliegue de Home Assistant en Docker Compose
+---
+
+### Issue #10: Dashboard de Monitoreo y Calibración Individual de Focos
+- **Labels**: `frontend`, `nextjs`, `ux`, `priority:medium`
+- **Estado**: Por implementar
+- **Descripción**:
+  Portar `dashboard_multi_foco.html` y `configuracion_individual.html` a componentes React en Next.js:
+  1. Card por foco con switch on/off, selector de modo (Sync, Estático, CCT).
+  2. Panel de calibración con sliders interactivos (ganancia Red, Green, Blue, gamma, brillo min/max, umbral blanco CCT).
+  3. Previsualizador de color real del foco contra el color muestreado de la pantalla.
+- **Criterios de Aceptación**:
+  - [ ] Sliders con debounce para no saturar requests a la API.
+  - [ ] Feedback visual instantáneo.
+  - [ ] Guardado automático o botón de guardar en el YAML del foco correspondiente.
+
+---
+
+## 🎯 Milestone 7: Infraestructura y Migración a Docker
+
+### Issue #11: Despliegue de Home Assistant en Docker Compose
 - **Labels**: `devops`, `docker`, `priority:low`
 - **Estado**: Por implementar (última fase)
 - **Descripción**:
