@@ -1,23 +1,23 @@
 light:
-  entity_id: "light.wiz_rgbw_tunable_b14126"
-  name: "WiZ RGBW"
-  type: "wiz_rgbw"
-
+  entity_id: light.wiz_rgbw_tunable_b14126
+  name: WiZ RGBW Monitor
+  type: wiz_rgbw
+  brand: WiZ Connected
 capabilities:
   rgb: true
   rgbw: true
   cct: true
   min_kelvin: 2200
   max_kelvin: 6500
-
 calibration:
+  red_correction: 1.2
+  green_correction: 1.1
+  blue_correction: 1.1
+  gamma: 0.65
+  brightness_multiplier: 1.0
+  brightness_min: 70
+  brightness_max: 255
   cct_white_threshold: 25
   cct_cold_white: 6500
-  brightness_min: 120
-  brightness_max: 255
-  brightness_multiplier: 1.0
-  off_threshold: 15
-  red_correction: 1.0
-  green_correction: 1.0
-  blue_correction: 3.0
-  color_change_threshold: 5
+  off_threshold: 42
+  color_change_threshold: 6

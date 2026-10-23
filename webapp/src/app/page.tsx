@@ -605,7 +605,37 @@ export default function AmbilightWebApp() {
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => alert(`Configuración de ${selectedLight.name} guardada en YAML!`)}
+                    onClick={() => {
+                      const defaults = {
+                        brightness_min: 70,
+                        brightness_max: 255,
+                        brightness_multiplier: 1.0,
+                        gamma: 0.65,
+                        red_correction: 1.05,
+                        green_correction: 0.95,
+                        blue_correction: 2.80,
+                        cct_white_threshold: 25,
+                        cct_cold_white: 6500,
+                        off_threshold: 18,
+                        color_change_threshold: 6,
+                      };
+                      setLights((prev) =>
+                        prev.map((l) => (l.id === selectedLight.id ? { ...l, calibration: defaults } : l))
+                      );
+                      saveLightCalibrationApi(selectedLight.id, defaults);
+                      alert(`Valores por defecto restablecidos para ${selectedLight.name}`);
+                    }}
+                    className="border border-slate-700 hover:bg-slate-800 text-slate-300 font-medium text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Restablecer Defaults</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      saveLightCalibrationApi(selectedLight.id, selectedLight.calibration);
+                      alert(`Configuración de ${selectedLight.name} guardada en YAML!`);
+                    }}
                     className="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5"
                   >
                     <span>Guardar YAML</span>
